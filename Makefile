@@ -166,7 +166,26 @@ endif
 FINCL =
 
 
-
+#----------------------------
+ifeq ($(SYSTYPE),"Mint19.2")
+CC       =  mpicc
+CXX      =  mpiccxx
+FC       =  $(CC) #mpifort
+OPTIMIZE = -O1 -funroll-loops
+OPTIMIZE += -g -Wall # compiler warnings
+GMP_INCL = #
+GMP_LIBS = #
+MKL_INCL = #
+MKL_LIBS = #
+GSL_INCL = -I/usr/include/gsl/
+GSL_LIBS = -L/usr/lib/x86_64-linux-gnu
+FFTW_INCL= -I/usr/local/include
+FFTW_LIBS= -L/usr/local/lib
+HDF5INCL = -I/usr/include/hdf5/openmpi -DH5_USE_16_API
+HDF5LIB  = -L/usr/lib/x86_64-linux-gnu/hdf5/openmpi -lhdf5 -lz
+MPICHLIB = #
+OPT     += #
+endif
 
 #----------------------------------------------------------------------------------------------
 ifeq ($(SYSTYPE),"Stampede")
