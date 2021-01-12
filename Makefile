@@ -187,6 +187,47 @@ MPICHLIB = #
 OPT     += #
 endif
 
+ifeq ($(SYSTYPE),"scicluster")
+CC       =  mpicc   # sets the C-compiler
+CXX      =  mpiCC
+OPTIMIZE =   -g -Wall
+GSL_INCL =  -I/home/modules/software/GSL/2.3-foss-2018b/include/
+GSL_LIBS =  -L/home/modules/software/GSL/2.3-foss-2018b/lib/
+FFTW_INCL=  -I/home/modules/software/FFTW/2.1.5-gompi-2018b/include/
+FFTW_LIBS=  -L/home/modules/software/FFTW/2.1.5-gompi-2018b/lib/
+HDF5INCL =  -I/home/modules/software/HDF5/1.10.2-gompi-2018b/include/ -DH5_USE_16_API
+HDF5LIB  =  -L/home/modules/software/HDF5/1.10.2-gompi-2018b/lib -lhdf5 -lz
+MPICHLIB =
+OPT     += -DUSE_MPI_IN_PLACE
+## modules to load: 
+## ml OpenMPI GSL HDF5 FFTW/2.1.5-gompi-2018b
+##  -- performance is very similar with impi (intel-mpi) instead of mpavich2, 
+##   if preferred use that with MPICHLIB line uncommented
+## newest version of code needed for compatibility with calls in MPI-2 libraries
+##
+endif
+
+
+ifeq ($(SYSTYPE),"ipm")
+CC       =  mpicc
+CXX      =  mpiccxx
+FC       =  $(CC) #mpifort
+OPTIMIZE = -O3 -funroll-loops
+OPTIMIZE += -g -Wall # compiler warnings
+GMP_INCL = #
+GMP_LIBS = #
+MKL_INCL = #
+MKL_LIBS = #
+GSL_INCL = -I/usr/include/gsl/
+GSL_LIBS = -L/usr/lib/x86_64-linux-gnu
+FFTW_INCL= -I$(HOME)/local/include
+FFTW_LIBS= -L$(HOME)/local/lib
+HDF5INCL = -I$(HOME)/local/include/ -DH5_USE_16_API
+HDF5LIB  = -L$(HOME)/local/lib -lhdf5 -lz
+MPICHLIB = #
+OPT     += #
+endif
+
 #----------------------------------------------------------------------------------------------
 ifeq ($(SYSTYPE),"Stampede")
 CC       =  mpicc
